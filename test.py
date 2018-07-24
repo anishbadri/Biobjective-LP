@@ -292,4 +292,6 @@ def bolp(O1,O2,A,b):
 
 #First objective(C) and constraints
 bolp([[1,2,1]],[[0,2,1]],[[0,1,4],[1,1,0]],[[8],[8]]) 
+
+//Comment by anish
    

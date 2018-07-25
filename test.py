@@ -12,6 +12,9 @@ def bolp(O1,O2,A,b):
     if all(i >= [0] for i in O2):
         C=O2
         C1=O1
+    else:
+        C=O1
+        C1=O2
     
     #Adding slack variables to constraints
     for i in range(0,len(b)):

@@ -15,7 +15,7 @@ def bolp(O1,O2,A,b):
     else:
         C=O1
         C1=O2
-    
+        
     #Adding slack variables to constraints
     for i in range(0,len(b)):
         for j in range(0,len(b)):
@@ -44,7 +44,7 @@ def bolp(O1,O2,A,b):
     #First tableau (I, Lambda, s)
     I=[]
     for i in range(0,len(t[0])):
-        if t[0][i]<0:
+        if t[0][i]<-0.0001:
             I.append(i+1)
     print('I=',I)
     
@@ -177,16 +177,45 @@ def bolp(O1,O2,A,b):
     #First tableau (I, Lambda, s)
     I=[]
     for i in range(0,len(t[0])):
-        if t[0][i]>=0 and t[1][i]<0:
+        if t[0][i]>=-0.0001 and t[1][i]<-0.0001:
             I.append(i+1)
     print('I=',I)
     
     print('B=',B);
+     #Calculating Lambda
+    Lambda=[]
+    for i in range(0,len(I)):
+        Lambda+=[-C[1][I[i]-1]/(C[0][I[i]-1]-C[1][I[i]-1])]
+    
+    for i in range(0,len(Lambda)):
+        index1=Lambda.index(max(Lambda));
+    s=I[index1];
+    print('s=',s);
+    
+    r=[];
+    for i in range(len(C),len(t),1):
+        if t[i][s-1]==0:
+            r+=[t[i][len(t[0])-1]/0.001];
+        else:
+            r+=[t[i][len(t[0])-1]/t[i][s-1]];
+    rmin=[]
+    for i in r:
+        if i>0:
+            rmin+=[i];
+    index2=rmin.index(min(rmin));
+    rc=B[index2]
+    print('r=',rc);
+    
+    
+    Lambda=max(Lambda);
+    print('Lambda=',Lambda)
+    print('-----------------------------------------------------------------------------------------------------------------------------------------')
+    
     
     while I!=[]:
     #Updating the tableau
     
-         #Calculating Lambda
+        """ #Calculating Lambda
         Lambda=[]
         for i in range(0,len(I)):
             Lambda+=[-C[1][I[i]-1]/(C[0][I[i]-1]-C[1][I[i]-1])]
@@ -215,7 +244,7 @@ def bolp(O1,O2,A,b):
         print('Lambda=',Lambda)
         print('-----------------------------------------------------------------------------------------------------------------------------------------')
         
-    
+    """
     #New Basis
         B=B+[s];
         B.remove(rc);
@@ -257,12 +286,12 @@ def bolp(O1,O2,A,b):
     #Second tableau (I, Lambda, s)
         I=[]
         for i in range(0,len(t[0])):
-            if t[0][i]>=0.0 and t[1][i]<0:
+            if t[0][i]>=-0.0001 and t[1][i]<-0.0001:
                 I.append(i+1)
         print('I=',I)
         
         print('B=',B)
-    #Calculating Lambda
+#Calculating Lambda
         if I!=[]:
             Lambda=[]
             for i in range(0,len(I)):
@@ -279,10 +308,7 @@ def bolp(O1,O2,A,b):
                     r+=[t[i][len(t[0])-1]/0.001];
                 else:
                     r+=[t[i][len(t[0])-1]/t[i][s-1]];
-           # rmin=[]
-           # for i in r:
-           #     if i>0:
-           #         rmin+=[i];
+           
             rmin = min(i for i in r if i > 0)
             index2=r.index(rmin);
             rc=B[index2]
@@ -294,6 +320,5 @@ def bolp(O1,O2,A,b):
             print('-----------------------------------------------------------------------------------------------------------------------------------------')
 
 #First objective(C) and constraints
-bolp([[1,2,1]],[[0,2,1]],[[0,1,4],[1,1,0]],[[8],[8]]) 
 
-   
+bolp([[1.2,1.0,1.1]],[[-64.6,-59.5,-43.9]],[[1,1,1],[432,321,168],[-8,5,8]],[[1000],[320000],[3500]]) 

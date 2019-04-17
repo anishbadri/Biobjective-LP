@@ -320,7 +320,7 @@ def bolp(O1,O2,A,b):
             print('Lambda=',Lambda)
             print('-----------------------------------------------------------------------------------------------------------------------------------------')
 
-            return t
+            return str(Lambda)
 
 #First objective(C) and constraints
 
